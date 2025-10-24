@@ -10,21 +10,21 @@ More model architectures and implementations will be continuously added to this 
 
 ## Implemented Methods
 
-> Minimal notation: \(w_{t,i}\) (weights), \(v_i\) (values), \(q_t,k_i\) (query/key), \(p_t\) (prior), \(\odot\) (Hadamard).
+> Minimal notation: $w_{t,i}$ (weights), $v_i$ (values), $q_t,k_i$ (query/key), $p_t$ (prior), $\odot$ (Hadamard).
 
 | Method | Core formula (concise) | Category | Paper / Code |
 |---|---|---|---|
-| **WAVE** (Weighted Autoregressive Varying Gate; ARMA-Attention) | \(o_t=\underbrace{\textstyle\sum_{i\le t} w_{t,i}\odot v_i}_{\text{AR}}+\underbrace{\textstyle\sum_{j\le t-1} \beta_{t-1,j}\odot r_j}_{\text{MA}},\ \ r_j=v_{j+1}-o^{\text{AR}}_j,\ \ \beta_{t-1,j}=\phi_q^{\text{MA}}(q_{t-1})\,\phi_k^{\text{MA}}(k^{\text{MA}}_j)\) | AR decoder-only with ARMA add-on (keeps complexity if base is linear) | [Paper](https://openreview.net/forum?id=Qqn5ktBUxH) / [Repo](https://github.com/LJC-FVNR/ARMA-Attention) |
-| **ZeroS** (Zero-Sum Linear Attention) | \(w_{t,i}=\sigma_t^1\frac{\delta_{t,i}}{t}+\sigma_t^h\varepsilon_{t,i}\) with \(\delta_{t,i}=s_i-\bar s_t\), \(\varepsilon_{t,i}=\text{softmax}(s_i)-\tfrac1t-\tfrac{\delta_{t,i}}{t}\);\ \ \(o_t=\sum_{i\le t} w_{t,i}\,\cos\theta\, v_i,\ \cos\theta=\hat q_t\hat k_i^\top\) | **Linear-time** zero-sum attention; contrastive, signed weights | [Paper](https://openreview.net/forum?id=Ms6IXbfzzX) / [Repo](https://github.com/LJC-FVNR/ZeroS) |
-| **FEM** (Free Energy Mixer) | Per-channel free-energy read on a prior \(p_t\): \(o_{t,j}=g_{t,j}\!\left[(1-\lambda_{t,j})\!\sum\nolimits_i p_t(i)v_{i,j}+\lambda_{t,j}\frac{1}{\beta_{\max}}\log\!\sum\nolimits_i p_t(i)e^{\beta_{\max}v_{i,j}}\right]\) | **Value-aware** posterior read; plug-and-play on softmax/linear/SSM priors; preserves prior complexity |  [Repo](https://github.com/LJC-FVNR/FreeEnergyMixer) |
+| **WAVE** (Weighted Autoregressive Varying Gate; ARMA-Attention) | $o_t=\underbrace{\textstyle\sum_{i\le t} w_{t,i}\odot v_i}_{\text{AR}}+\underbrace{\textstyle\sum_{j\le t-1} \beta_{t-1,j}\odot r_j}_{\text{MA}},\ \ r_j=v_{j+1}-o^{\text{AR}}_j,\ \ \beta_{t-1,j}=\phi_q^{\text{MA}}(q_{t-1})\,\phi_k^{\text{MA}}(k^{\text{MA}}_j)$ | AR decoder-only with ARMA add-on (keeps complexity if base is linear) | [Paper](https://openreview.net/forum?id=Qqn5ktBUxH) / [Repo](https://github.com/LJC-FVNR/ARMA-Attention) |
+| **ZeroS** (Zero-Sum Linear Attention) | $w_{t,i}=\sigma_t^1\frac{\delta_{t,i}}{t}+\sigma_t^h\varepsilon_{t,i}$ with $\delta_{t,i}=s_i-\bar s_t$, $\varepsilon_{t,i}=\text{softmax}(s_i)-\tfrac1t-\tfrac{\delta_{t,i}}{t}$; $o_t=\sum_{i\le t} w_{t,i}\,\cos\theta\, v_i,\ \cos\theta=\hat q_t\hat k_i^\top$ | **Linear-time** zero-sum attention; contrastive, signed weights | [Paper](https://openreview.net/forum?id=Ms6IXbfzzX) / [Repo](https://github.com/LJC-FVNR/ZeroS) |
+| **FEM** (Free Energy Mixer) | Per-channel free-energy read on a prior $p_t$: $o_{t,j}=g_{t,j}\left[(1-\lambda_{t,j})\sum\nolimits_i p_t(i)v_{i,j}+\lambda_{t,j}\frac{1}{\beta_{\max}}\log\sum\nolimits_i p_t(i)e^{\beta_{\max}v_{i,j}}\right]$ | **Value-aware** posterior read; plug-and-play on softmax/linear/SSM priors; preserves prior complexity |  [Repo](https://github.com/LJC-FVNR/FreeEnergyMixer) |
 
 > More methods and experimental architectures are under development and will be added soon.
 
 **Notes**
 
-- **WAVE** adds an MA branch via *indirect* weight generation; compute AR first, form residuals \(r_j\), then apply a linear-time MA read (same order as the base attention).
-- **ZeroS** removes the softmax zero-order \(1/t\) term and reweights residuals with gates; implemented via prefix scans for \(O(N)\) time; optional angular term \(\cos\theta\) restores directional effects (nice with RoPE).
-- **FEM** is a readout on top of a selection prior \(p_t\) (softmax, gated linear, RNN/SSM). It adds one log-sum-exp per channel (with linearized temperature learning), keeping the prior’s asymptotic complexity.
+- **WAVE** adds an MA branch via *indirect* weight generation; compute AR first, form residuals $r_j$, then apply a linear-time MA read (same order as the base attention).
+- **ZeroS** removes the softmax zero-order $1/t$ term and reweights residuals with gates; implemented via prefix scans for $O(N)$ time; optional angular term $\cos\theta$ restores directional effects (nice with RoPE).
+- **FEM** is a readout on top of a selection prior $p_t$ (softmax, gated linear, RNN/SSM). It adds one log-sum-exp per channel (with linearized temperature learning), keeping the prior’s asymptotic complexity.
 
 ---
 
