@@ -1,0 +1,138 @@
+# -----------------------------
+# OS / Editor / IDE artifacts
+# -----------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*.orig
+*.bak
+~$*
+# VS Code / JetBrains
+.vscode/
+.idea/
+
+# -----------------------------
+# Python bytecode & caches
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# -----------------------------
+# Environments
+# -----------------------------
+.venv/
+venv/
+env/
+ENV/
+.python-version
+# dotenv / direnv
+.env
+.env.*
+!.env.example
+.direnv/
+
+# -----------------------------
+# Build / packaging
+# -----------------------------
+build/
+dist/
+wheelhouse/
+*.egg-info/
+.eggs/
+.installed.cfg
+pip-wheel-metadata/
+# PEP 517/518 build backends
+.pybuild/
+# C extensions
+*.so
+*.pyd
+*.dll
+
+# -----------------------------
+# Coverage / test outputs
+# -----------------------------
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+pytestdebug.log
+.cache/
+
+# -----------------------------
+# Logs / temp
+# -----------------------------
+logs/
+*.log
+*.tmp
+tmp/
+temp/
+
+# -----------------------------
+# Jupyter notebooks
+# -----------------------------
+.ipynb_checkpoints/
+# Optional: strip large auto-saved outputs
+*.nbconvert.ipynb
+
+# -----------------------------
+# Data / experiments (opt-in)
+# -----------------------------
+data/
+datasets/
+outputs/
+runs/
+experiments/
+artifacts/
+# TensorBoard / WandB / Lightning
+events.out.tfevents.*
+*.tfevents.*
+wandb/
+lightning_logs/
+
+# -----------------------------
+# Checkpoints / models
+# -----------------------------
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# -----------------------------
+# Project-specific (edit as needed)
+# -----------------------------
+# Compiled kernels / third-party extensions
+flash-attn*/build/
+fla*/build/
+mamba-ssm*/build/
+# Local notes
+notes/
+scratch/
+
+# -----------------------------
+# Node (if any frontend docs/tools)
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# MacOS metadata (redundant but safe)
+# -----------------------------
+.AppleDouble
+.LSOverride
+
+# -----------------------------
+# Windows metadata (redundant but safe)
+# -----------------------------
+$RECYCLE.BIN/

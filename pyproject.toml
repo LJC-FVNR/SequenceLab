@@ -1,0 +1,16 @@
+[project]
+name = "sequencelab"
+version = "0.1.0"
+description = "Improved attention layers (WAVE/ARMA, ZeroS, FEM) with a tiny PyTorch API"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name="Jiecheng Lu and Shihao Yang"}]
+dependencies = ["torch>=2.1"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
