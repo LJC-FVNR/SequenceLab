@@ -16,7 +16,7 @@ More model architectures and implementations will be continuously added to this 
 |---|---|---|---|
 | **WAVE** (Weighted Autoregressive Varying Gate; ARMA-Attention) | $o_t = o_t^{\mathrm{AR}} + o_t^{\mathrm{MA}}, \, o_t^{\mathrm{AR}}=\sum_{i\le t} w_{t,i} v_i$ <br> $o_t^{\mathrm{MA}}=\sum_{j\le t-1} \beta_{t-1,j} r_j, r_j = v_{j+1} - o_j^{\mathrm{AR}}, \, \beta_{t-1,j}=\phi_q^{\mathrm{MA}}(q_{t-1})\,\phi_k^{\mathrm{MA}}(k_j^{\mathrm{MA}})$ | AR decoder-only with ARMA add-on (keeps complexity if base is linear) | [Paper](https://openreview.net/forum?id=Qqn5ktBUxH) / [Repo](https://github.com/LJC-FVNR/ARMA-Attention) |
 | **ZeroS** (Zero-Sum Linear Attention) | $w_{t,i}=\sigma_t^1\frac{\delta_{t,i}}{t}+\sigma_t^h\varepsilon_{t,i}$ with $\delta_{t,i}=s_i-\bar s_t$, $\varepsilon_{t,i}=\text{softmax}(s_i)-\tfrac1t-\tfrac{\delta_{t,i}}{t}$; $o_t=\sum_{i\le t} w_{t,i}\,\cos\theta\, v_i,\ \cos\theta=\hat q_t\hat k_i^\top$ | **Linear-time** zero-sum attention; contrastive, signed weights | [Paper](https://openreview.net/forum?id=Ms6IXbfzzX) / [Repo](https://github.com/LJC-FVNR/ZeroS) |
-| **FEM** (Free Energy Mixer) | Per-channel free-energy read on a prior $p_t$: $o_{t,j}=g_{t,j}\left[(1-\lambda_{t,j})\sum\nolimits_i p_t(i)v_{i,j}+\lambda_{t,j}\frac{1}{\beta_{\max}}\log\sum\nolimits_i p_t(i)e^{\beta_{\max}v_{i,j}}\right]$ | **Value-aware** posterior read; plug-and-play on softmax/linear/SSM priors; preserves prior complexity |  [Repo](https://github.com/LJC-FVNR/FreeEnergyMixer) |
+| **FEM** (Free Energy Mixer) | Per-channel free-energy read on a prior $p_t$: $o_{t,j}=g_{t,j}\left[(1-\lambda_{t,j})\sum\nolimits_i p_t(i)v_{i,j}+\lambda_{t,j}\frac{1}{\beta_{\max}}\log\sum\nolimits_i p_t(i)e^{\beta_{\max}v_{i,j}}\right]$ | **Value-aware** posterior read; plug-and-play on softmax/linear/SSM priors; preserves prior complexity |  [Paper](https://openreview.net/forum?id=vjQnKToCnV) / [Repo](https://github.com/LJC-FVNR/Free-Energy-Mixer) |
 
 > More methods and experimental architectures are under development and will be added soon.
 
@@ -247,5 +247,6 @@ from sequencelab.layers.wave  import (
 from sequencelab.layers.zeros import ZeroSAttention
 from sequencelab.layers.fem   import FreeEnergyMixer
 ```
+
 
 All layers are plain `nn.Module`s. WAVE/ZeroS take keyword arguments or a small `SimpleNamespace` config, and FEM takes a `FEMConfig`.
